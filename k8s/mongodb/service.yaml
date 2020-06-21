@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  selector:
+    app: mongodb #labels que o serviço irá expor
+  ports:
+  - port: 27017
+    targetPort: 27017
+  type: ClusterIP #ip sera usado só internamente

@@ -1,0 +1,32 @@
+apiVersion: apps/v1 #versão da api
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 1 #se não colocar default é 1
+  selector:
+    matchLabels: #selecionar objeto no kubernetes, labels e mathcLabels tem mesmo conteúdo
+      app: api
+  template:
+    metadata:
+      labels: #marcar objeto no kubernete
+        app: api
+    spec: #tem os containers que serão executados aqui dentro, o que vai dentro do pod
+      containers:
+      - name: api
+        image: fabricioveronez/jornada-kubernetes-api:v4 #nunca coloque latest, selecione uma versão especifica
+        ports:
+        - containerPort: 8080
+        resources:
+          limits: #limite de uso máximo
+            memory: 60Mi
+            cpu: 500m
+          requests: #minímo pra executar o pod
+            memory: 40Mi
+            cpu: 250m
+        env:
+          - name: MONGODB_URI
+            value: mongodb://mongouser:mongopwd@mongo-service:27017/admin 
+            #mongo-service - nome do serviço do mongo
+            #mongouser - usuario do deployment do mong
+            #mongopwd - senha do deployment do mong
